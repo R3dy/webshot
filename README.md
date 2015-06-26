@@ -13,6 +13,7 @@ Just another tool to screenshot web servers
 
     Usage: ./webshot.rb [options] [target list]
 
-        -t, --threads [Thread Count]     Integer value between 1-20 (Default is 10)
-        -T, --targets [Hosts File]       File containing [IP Address]:[Port]
+        -t, --targets [Hosts File]       File containing [IP Address]:[Port]
+        -o, --output [Output Directory]  Path to file where screenshots will be stored
+        -T, --threads [Thread Count]     Integer value between 1-20 (Default is 10)
         -v, --verbose                    Enables verbose output
