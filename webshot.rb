@@ -20,8 +20,9 @@ args = OptionParser.new do |opts|
   opts.banner += "References:\r\n"
   opts.banner += "\thttps://www.pentestgeek.com/ptgforums/index.php\r\n\r\n"
   opts.banner += "Usage: ./webshot.rb [options] [target list]\r\n\r\n"
-  opts.on("-t", "--threads [Thread Count]", "Integer value between 1-20 (Default is 10)") { |threads| @options[:threads] = threads.to_i }
-  opts.on("-T", "--targets [Hosts File]", "File containing [IP Address]:[Port]") { |targets| @options[:targets] = File.open(targets, "r").read }
+  opts.on("-t", "--targets [Hosts File]", "File containing [IP Address]:[Port]") { |targets| @options[:targets] = File.open(targets, "r").read }
+  opts.on("-o", "--output [Output Directory]", "Path to file where screenshots will be stored") { |output| @options[:output] = output.chomp }
+  opts.on("-T", "--threads [Thread Count]", "Integer value between 1-20 (Default is 10)") { |threads| @options[:threads] = threads.to_i }
   opts.on("-v", "--verbose", "Enables verbose output\r\n\r\n") { |v| @options[:verbose] = true }
 end
 args.parse!(ARGV)
@@ -76,10 +77,10 @@ end
     screenshot = get_screenshot(url)
     if screenshot
       begin
-        screenshot.to_file("./output/#{target.chomp.gsub(/:/,'_')}.png")
+        screenshot.to_file("#{@options[:output]}/#{target.chomp.gsub(/:/,'_')}.png")
       rescue => error
         if error.message.include? "No such file or directory"
-          puts "No output directory, run: \'mkdir output\'"
+          puts "Directory \"#{@options[:output]}\" does not exist."
           exit!
         end
         next
