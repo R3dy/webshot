@@ -1,5 +1,6 @@
 # Webshot
 Just another tool to screenshot web servers
+https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
 
 # Installation
     $bundle install
@@ -9,7 +10,7 @@ Just another tool to screenshot web servers
     Webshot.rb VERSION: 0.1 - UPDATED: 6/26/2015
 
     References:
-      https://www.pentestgeek.com/ptgforums/index.php
+      https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
 
     Usage: ./webshot.rb [options] [target list]
 
