@@ -2,10 +2,9 @@
 begin
   require 'imgkit'
   require 'pry'
-  require 'thread'
+  require 'thread/pool'
   require 'optparse'
-rescue LoadError => msg
-  binding.pry
+rescue LoadError
   puts "Error resolving dependencies.  Run \'bundle install\' first"
   exit!
 end
