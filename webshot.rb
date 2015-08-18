@@ -44,6 +44,8 @@ IMGKit.configure do |config|
     quality: 25,
     height: 600,
     width: 800,
+    # If the website happens to offer up an auth prompt.
+    # No harm in trying admin/admin while we're here...
     username: 'admin',
     password: 'admin',
     'load-error-handling' => 'ignore'
