@@ -4,8 +4,8 @@ begin
   require 'pry'
   require 'thread/pool'
   require 'optparse'
-rescue LoadError
-  puts "Error resolving dependencies.  Run \'bundle install\' first"
+rescue LoadError => msg
+  puts msg.message.chomp + " try running \'bundle install\' first"
   exit!
 end
 
