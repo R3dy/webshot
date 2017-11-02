@@ -3,7 +3,10 @@ Just another tool to screenshot web servers
 https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
 
 # Installation
-    $bundle install
+    $ bundle install
+
+For some reason the thread gem isn't installing via bundle install so install it manually.
+    $ gem install thread
 
 # Help
     $ ./webshot.rb -h
