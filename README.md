@@ -6,6 +6,7 @@ https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
     $ bundle install
 
 For some reason the thread gem isn't installing via bundle install so install it manually.
+
     $ gem install thread
 
 # Help
