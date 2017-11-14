@@ -25,7 +25,9 @@ end
 		opts.banner += "\thttps://www.pentestgeek.com/ptgforums/index.php\r\n\r\n"
 		opts.banner += "Usage: ./webshot.rb [options] [target list]\r\n\r\n"
 		opts.on("-t", "--targets [Nmap XML File]", "XML Output From Nmap Scan") { |targets| @options[:targets] = File.open(targets, "r").read }
+		opts.on("-c", "--css [CSS File]", "File containing css to apply to all screenshtos") { |css| @options[:css] = File.open(css, "r") }
 		opts.on("-u", "--url [Single URL]", "Single URL to take a screenshot") { |url| @options[:url] = url.chomp }
+		opts.on("-U", "--url-file [URL File]", "Text file containing URLs, one on each line") { |url_file| @options[:url_file] = File.open(url_file, "r").read }
 		opts.on("-o", "--output [Output Directory]", "Path to file where screenshots will be stored") { |output| @options[:output] = output.chomp }
 		opts.on("-T", "--threads [Thread Count]", "Integer value between 1-20 (Default is 10)") { |threads| @options[:threads] = threads.to_i }
 		opts.on("-v", "--verbose", "Enables verbose output\r\n\r\n") { |v| @options[:verbose] = true }
@@ -53,7 +55,13 @@ if @options[:targets]
 	end
 end
 
-@options[:urls] << @options[:url] if @options[:url]
+if @options[:url]
+	@options[:urls] << @options[:url] if @options[:url]
+end
+
+if @options[:url_file]
+	@options[:urls] = @options[:url_file].split
+end
 
 if @options[:threads]
   if @options[:threads] > 20 || @options[:threads] < 1
@@ -95,7 +103,12 @@ def get_screenshot(url)
 		use_ssl = url.include? 'https'
 		http = setup_http(url, use_ssl)
 		response = http.get('/', {})
-		screenshot = IMGKit.new(response.body, quality: 25, height: 600, width: 800) if response.code == "200"
+		if response.code == "302"
+			path = '/' + response.header["location"].split('/')[-1]
+			response = http.get(path, {})
+		end
+		screenshot = IMGKit.new(response.body, quality: 25, height: 600, width: 800)
+		screenshot.stylesheets << @options[:css].path if @options[:css]
 	rescue => error
 		puts error
 		return nil
