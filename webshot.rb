@@ -20,19 +20,19 @@ end
 
 
 @options = {}
-	args = OptionParser.new do |opts|
-		opts.banner = "Webshot.rb VERSION: 1.1 - UPDATED: 7/16/2019\r\n\r\n"
-		opts.banner += "References:\r\n"
-		opts.banner += "\thttps://github.com/R3dy/webshot\r\n\r\n"
-		opts.banner += "Usage: ./webshot.rb [options] [target list]\r\n\r\n"
-		opts.on("-t", "--targets [Nmap XML File]", "XML Output From Nmap Scan") { |targets| @options[:targets] = File.open(targets, "r").read }
-		opts.on("-c", "--css [CSS File]", "File containing css to apply to all screenshtos") { |css| @options[:css] = File.open(css, "r") }
-		opts.on("-u", "--url [Single URL]", "Single URL to take a screenshot") { |url| @options[:url] = url.chomp }
-		opts.on("-U", "--url-file [URL File]", "Text file containing URLs, one on each line") { |url_file| @options[:url_file] = File.open(url_file, "r").read }
-		opts.on("-o", "--output [Output Directory]", "Path to file where screenshots will be stored") { |output| @options[:output] = output.chomp }
-		opts.on("-T", "--threads [Thread Count]", "Integer value between 1-20 (Default is 10)") { |threads| @options[:threads] = threads.to_i }
-		opts.on("-v", "--verbose", "Enables verbose output\r\n\r\n") { |v| @options[:verbose] = true }
-	end
+  args = OptionParser.new do |opts|
+    opts.banner = "Webshot.rb VERSION: 1.1 - UPDATED: 7/16/2019\r\n\r\n"
+    opts.banner += "References:\r\n"
+    opts.banner += "\thttps://github.com/R3dy/webshot\r\n\r\n"
+    opts.banner += "Usage: ./webshot.rb [options] [target list]\r\n\r\n"
+    opts.on("-t", "--targets [Nmap XML File]", "XML Output From Nmap Scan") { |targets| @options[:targets] = File.open(targets, "r").read }
+    opts.on("-c", "--css [CSS File]", "File containing css to apply to all screenshtos") { |css| @options[:css] = File.open(css, "r") }
+    opts.on("-u", "--url [Single URL]", "Single URL to take a screenshot") { |url| @options[:url] = url.chomp }
+    opts.on("-U", "--url-file [URL File]", "Text file containing URLs, one on each line") { |url_file| @options[:url_file] = File.open(url_file, "r").read }
+    opts.on("-o", "--output [Output Directory]", "Path to file where screenshots will be stored") { |output| @options[:output] = output.chomp }
+    opts.on("-T", "--threads [Thread Count]", "Integer value between 1-20 (Default is 10)") { |threads| @options[:threads] = threads.to_i }
+    opts.on("-v", "--verbose", "Enables verbose output\r\n\r\n") { |v| @options[:verbose] = true }
+  end
 args.parse!(ARGV)
 
 
