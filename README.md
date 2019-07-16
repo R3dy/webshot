@@ -8,7 +8,7 @@ For some reason the thread gem isn't installing via bundle install so install it
 
     $ gem install thread
 
-Webshot utilized the wkhtmltoimage binary which unfortuently is stuck on libpng12.  Download the .deb package from [https://packages.ubuntu.com/xenial/amd64/libpng12-0/download](https://packages.ubuntu.com/xenial/amd64/libpng12-0/download) and install it with `dpkg -i`
+Webshot utilizedthe wkhtmltoimage binary which is stuck on libpng12.  Download the .deb package from [https://packages.ubuntu.com/xenial/amd64/libpng12-0/download](https://packages.ubuntu.com/xenial/amd64/libpng12-0/download) and install it with `dpkg -i`
 
     $ sudo dpkg -i libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
 
