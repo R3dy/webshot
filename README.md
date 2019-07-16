@@ -15,14 +15,19 @@ Webshot utilized the wkhtmltoimage binary which unfortuently is stuck on libpng1
 
 # Help
     $ ./webshot.rb -h
-    Webshot.rb VERSION: 0.2 - UPDATED: 9/07/2017
+    Webshot.rb VERSION: 1.1 - UPDATED: 7/16/2019
 
     References:
-      https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
+            https://github.com/R3dy/webshot
 
     Usage: ./webshot.rb [options] [target list]
 
-				-t, --targets [Nmap XML File]    XML Output From Nmap Scan
+        -t, --targets [Nmap XML File]    XML Output From Nmap Scan
+        -c, --css [CSS File]             File containing css to apply to all screenshtos
+        -u, --url [Single URL]           Single URL to take a screenshot
+        -U, --url-file [URL File]        Text file containing URLs, one on each line
         -o, --output [Output Directory]  Path to file where screenshots will be stored
         -T, --threads [Thread Count]     Integer value between 1-20 (Default is 10)
         -v, --verbose                    Enables verbose output
+
+
