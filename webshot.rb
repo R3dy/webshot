@@ -20,9 +20,9 @@ end
 
 @options = {}
 	args = OptionParser.new do |opts|
-		opts.banner = "Webshot.rb VERSION: 0.1 - UPDATED: 6/26/2015\r\n\r\n"
+		opts.banner = "Webshot.rb VERSION: 1.1 - UPDATED: 7/16/2019\r\n\r\n"
 		opts.banner += "References:\r\n"
-		opts.banner += "\thttps://www.pentestgeek.com/ptgforums/index.php\r\n\r\n"
+		opts.banner += "\thttps://github.com/R3dy/webshot\r\n\r\n"
 		opts.banner += "Usage: ./webshot.rb [options] [target list]\r\n\r\n"
 		opts.on("-t", "--targets [Nmap XML File]", "XML Output From Nmap Scan") { |targets| @options[:targets] = File.open(targets, "r").read }
 		opts.on("-c", "--css [CSS File]", "File containing css to apply to all screenshtos") { |css| @options[:css] = File.open(css, "r") }
@@ -42,13 +42,12 @@ if @options[:targets]
 		ip = host.css('address').attr('addr').text
 		host.css("port").each do |p|
 			if p.css('state').attr('state').value == "open"
+        next if !p.css('service').attr('name')
 				port = p.attr('portid')
 				proto = p.css('service').attr('name').text.split('-')[0]
-				if proto.include? 'http'
-					the_url_http = "http://#{ip}:#{port}"
-					the_url_https = "https://#{ip}:#{port}"
-					@options[:urls] << the_url_http.chomp
-					@options[:urls] << the_url_https.chomp
+				if proto == 'http' || proto == 'https'
+					@options[:urls] << "https://#{ip}:#{port}"
+					@options[:urls] << "http://#{ip}:#{port}"
 				end
 			end
 		end
@@ -107,10 +106,13 @@ def get_screenshot(url)
 			path = '/' + response.header["location"].split('/')[-1]
 			response = http.get(path, {})
 		end
-		screenshot = IMGKit.new(response.body, quality: 25, height: 600, width: 800)
+		screenshot = IMGKit.new(url, quality: 25, height: 600, width: 800)
 		screenshot.stylesheets << @options[:css].path if @options[:css]
+  rescue Errno::EHOSTUNREACH => error
+    puts error if @options[:verbose]
+    return nil
 	rescue => error
-		puts error
+		puts error if @options[:verbose]
 		return nil
 	end
 	return screenshot
@@ -123,11 +125,11 @@ puts "Capturing #{@options[:urls].size.to_s} screenshots using #{@threads.max.to
 		if screenshot
 			begin
 				ip = url.split('//')[1]
-				file = screenshot.to_file("#{@options[:output]}/#{ip.gsub(/[:\/]/,'_')}.png")
+				file = screenshot.to_file("#{@options[:output]}/#{url.split(':')[0]}_#{ip.gsub(/[:\/]/,'_')}.png")
 				FileUtils.rm(file.path) unless file.size > 3273
 			rescue => error
 				if error.message.include? "No such file or directory"
-					puts "Directory \"#{@options[:output]}\" does not exist."
+					puts "Directory \"#{@options[:output]}\" does not exist." if @options[:verbose]
 					return
 				end
 				next
