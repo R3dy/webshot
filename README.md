@@ -1,8 +1,7 @@
 # Webshot
-Just another tool to screenshot web servers
-https://www.pentestgeek.com/ptgforums/viewtopic.php?id=18
+Just another tool to screenshot web servers.
 
-# Installation
+## Installation
     $ bundle install
 
 For some reason the thread gem isn't installing via bundle install so install it manually.
@@ -13,7 +12,7 @@ Webshot utilized the wkhtmltoimage binary which unfortuently is stuck on libpng1
 
     $ sudo dpkg -i libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
 
-# Help
+## Help
     $ ./webshot.rb -h
     Webshot.rb VERSION: 1.1 - UPDATED: 7/16/2019
 
