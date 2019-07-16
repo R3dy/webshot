@@ -1,22 +1,23 @@
 #!/usr/bin/env ruby
 begin
-	require 'imgkit'
-	require 'pry'
-	require 'thread/pool'
-	require 'optparse'
-	require 'nmap/parser'
-	require 'nokogiri'
-	require 'net/https'
-	require 'openssl'
+  require 'imgkit'
+  require 'pry'
+  require 'thread/pool'
+  require 'optparse'
+  require 'nmap/parser'
+  require 'nokogiri'
+  require 'net/https'
+  require 'openssl'
 rescue LoadError => msg
-	puts msg.message.chomp + " try running \'bundle install\' first"
-	exit!
+  puts msg.message.chomp + " try running \'bundle install\' first"
+  exit!
 end
 
 unless ARGV.length > 0
 	puts "Try ./webshot.rb -h\r\n\r\n"
 	exit!
 end
+
 
 @options = {}
 	args = OptionParser.new do |opts|
@@ -33,6 +34,7 @@ end
 		opts.on("-v", "--verbose", "Enables verbose output\r\n\r\n") { |v| @options[:verbose] = true }
 	end
 args.parse!(ARGV)
+
 
 @options[:urls] = Array.new
 if @options[:targets]
@@ -54,13 +56,16 @@ if @options[:targets]
 	end
 end
 
+
 if @options[:url]
 	@options[:urls] << @options[:url] if @options[:url]
 end
 
+
 if @options[:url_file]
 	@options[:urls] = @options[:url_file].split
 end
+
 
 if @options[:threads]
   if @options[:threads] > 20 || @options[:threads] < 1
@@ -72,6 +77,7 @@ if @options[:threads]
 else
   @threads = Thread.pool(10)
 end
+
 
 puts "Configuring IMGKit options"
 IMGKit.configure do |config|
@@ -87,6 +93,8 @@ IMGKit.configure do |config|
   }
 end
 
+
+# Method not used but keeping the code cause YOLO
 def setup_http(url, use_ssl)
 	uri = URI.parse(url)
 	http = Net::HTTP.new(uri.host, uri.port)
@@ -95,17 +103,18 @@ def setup_http(url, use_ssl)
 	return http
 end
  
+
 def get_screenshot(url)
 	begin
 		puts "Taking screenshot: #{url}" if @options[:verbose]
-		headers = {}
-		use_ssl = url.include? 'https'
-		http = setup_http(url, use_ssl)
-		response = http.get('/', {})
-		if response.code == "302"
-			path = '/' + response.header["location"].split('/')[-1]
-			response = http.get(path, {})
-		end
+		#headers = {}
+		#use_ssl = url.include? 'https'
+		#http = setup_http(url, use_ssl)
+		#response = http.get('/', {})
+		#if response.code == "302"
+    #path = '/' + response.header["location"].split('/')[-1]
+    #  response = http.get(path, {})
+		#end
 		screenshot = IMGKit.new(url, quality: 25, height: 600, width: 800)
 		screenshot.stylesheets << @options[:css].path if @options[:css]
   rescue Errno::EHOSTUNREACH => error
@@ -117,6 +126,7 @@ def get_screenshot(url)
 	end
 	return screenshot
 end
+
 
 puts "Capturing #{@options[:urls].size.to_s} screenshots using #{@threads.max.to_s} threads"
 @options[:urls].each do |url|
