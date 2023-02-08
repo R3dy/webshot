@@ -8,7 +8,15 @@ For some reason the thread gem isn't installing via bundle install so install it
 
     $ gem install thread
 
-Webshot utilizedthe wkhtmltoimage binary which is stuck on libpng12.  Download the .deb package from [https://packages.ubuntu.com/xenial/amd64/libpng12-0/download](https://packages.ubuntu.com/xenial/amd64/libpng12-0/download) and install it with `dpkg -i`
+Download the correct wkhtmltopdf package for your distribution from [https://wkhtmltopdf.org/downloads.html](https://wkhtmltopdf.org/downloads.html) and install with ```dpkg -i```. The current version tested and working with Kali from capsulecorp is ```wkhtmltox_0.12.6.1-2.bullseye_amd64.deb```
+
+    $ sudo dpkg -i wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
+
+You will also need to install libssl for wkhtmltopdf
+
+    $ sudo apt install libssl1.1
+
+IF you are still having issues, Webshot utilized the wkhtmltoimage binary which is stuck on libpng12.  Download the .deb package from [https://packages.ubuntu.com/xenial/amd64/libpng12-0/download](https://packages.ubuntu.com/xenial/amd64/libpng12-0/download) and install it with `dpkg -i`
 
     $ sudo dpkg -i libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
 
